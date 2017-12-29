@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h2>Votre commande</h2>
+
+       <ul>
+           <li>{{ ticket.period }}</li>
+           <li>{{ ticket.dateVisit|date('d/m/Y') }}</li>
+           <li>{{ ticket.email }}</li>
+
+           <table>
+           {% for visitor in ticket.visitors%}
+               <tr>
+                   <td>{{ visitor.lastName }}</td>
+                   <td>{{ visitor.firstName }}</td>
+                   <td>{{ visitor.country }}</td>
+                   <td>{{ visitor.discount }}</td>
+               </tr>
+           {% endfor %}
+
+               <tr>
+                   <td><strong>Prix: </strong> {{ ticket.price }} €</td>
+               </tr>
+           </table>
+
+
+           {{ dump() }}
+
+        </ul>
+
+    <form action="{{ path('payment') }}" method="POST">
+        <script
+                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                data-key="pk_test_gbU91Nodb7Vs22P3FqFhR5Wo"
+                data-amount="{{ ticket.price*100 }}"
+                data-name="Test-Louvre"
+                data-description="Widget"
+                data-locale="auto"
+                data-currency="eur">
+        </script>
+    </form>
+
+
+
+
+{% endblock %}

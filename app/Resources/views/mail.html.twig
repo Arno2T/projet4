@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Votre réservation</title>
+    </head>
+    {% block body %}
+
+        <h2>Votre réservation</h2>
+
+        <p>Vous avez réservé le {{ dateDay }} pour une visite au Louvre à la date du ??????? .</p>
+        <p>Le montant de votre réservation est de {{ ticket.price }} €</p> .
+        <p>Vous trouverez ci-dessous les informations sur les visiteurs inscrits: </p>
+        <div>
+            <table>
+               {% for visitor in ticket.visitors%}
+                   <tr>
+                       <td>{{ visitor.lastName }}</td>
+                       <td>{{ visitor.firstName }}</td>
+                       <td>{{ visitor.country }}</td>
+                       <td>{{ visitor.discount }}</td>
+                   </tr>
+               {% endfor %}
+            </table>
+        </div>
+    {% endblock %}
+
+</html>
