@@ -1,7 +1,59 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <h1>Bienvenue au Louvre</h1>
-    <p>Site de réservation en ligne du Louvre.<br/>
-    Si vous désirez réserver un billet, cliquer sur le lien suivant</p>
-    <a href="/booking">Réservation</a>
+    <div class="container">
+        <div class="row">
+            <div id="home">
+                <section class="col-md-6">
+                    <p>Site de réservation en ligne du Louvre.</p>
+                    <p>Si vous désirez réserver un billet, cliquez sur le lien suivant.</p>
+                    <a class="btn btn-primary btn-lg" id="booking" href="{{ path('booking') }}" role="link">Réserver</a>
+                </section>
+                <section class="col-md-6" id="price">
+                    <table class="table-bordered">
+                        <caption>Tarifs 2017-2018</caption>
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th> Tarif journée </th>
+                            <th> Tarif demi-journée </th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr>
+                            <td>0-3 ans</td>
+                            <td>Gratuit</td>
+                            <td>Gratuit</td>
+                        </tr>
+                        <tr>
+                            <td>4-12 ans</td>
+                            <td>8 €</td>
+                            <td>4 €</td>
+                        </tr>
+                        <tr>
+                            <td>12-59 ans</td>
+                            <td>16 €</td>
+                            <td>8 €</td>
+                        </tr>
+                        <tr>
+                            <td>Seniors</td>
+                            <td>12 €</td>
+                            <td>6 €</td>
+                        </tr>
+                        <tr>
+                            <td>Tarif réduit </td>
+                            <td>10 € </td>
+                            <td>5 €</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </section>
+            </div><!--home-->
+        </div><!--row-->
+
+
+
+    </div><!--container-->
+
 {% endblock %}

@@ -15,11 +15,10 @@ use Doctrine\ORM\EntityManager;
 
 
 
-
-
 class NbVisitors
 {
     private $manager;
+
     public function __construct(EntityManager $manager)
     {
         $this->manager= $manager;

@@ -1,29 +1,42 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+    <div class="container">
     <h2>Votre commande</h2>
 
        <ul>
-           <li>{{ ticket.period }}</li>
-           <li>{{ ticket.dateVisit|date('d/m/Y') }}</li>
-           <li>{{ ticket.email }}</li>
+           <li>{% if ticket.period==1 %} Journée {% else %} Demi-journée
+                {% endif %}</li>
+           <li>Date de visite: {{ ticket.dateVisit|date('d/m/Y') }}</li>
+           <li>Votre email: {{ ticket.email }}</li>
 
-           <table>
+           <table class="table-bordered">
+               <caption> Vos informations</caption>
+               <thead>
+                   <tr>
+                       <td>Nom</td>
+                       <td>Prénom</td>
+                       <td>Pays</td>
+                       <td>Tarif réduit</td>
+                   </tr>
+
+               </thead>
+               <tbody>
            {% for visitor in ticket.visitors%}
                <tr>
                    <td>{{ visitor.lastName }}</td>
                    <td>{{ visitor.firstName }}</td>
                    <td>{{ visitor.country }}</td>
-                   <td>{{ visitor.discount }}</td>
+                   <td>{% if visitor.discount== true  %} Oui{% else %} Non
+                        {% endif %}</td>
                </tr>
            {% endfor %}
 
                <tr>
-                   <td><strong>Prix: </strong> {{ ticket.price }} €</td>
+                   <td><strong>Prix total: </strong> {{ ticket.price }} €</td>
                </tr>
+               </tbody>
            </table>
 
-
-           {{ dump() }}
 
         </ul>
 
@@ -33,11 +46,12 @@
                 data-key="pk_test_gbU91Nodb7Vs22P3FqFhR5Wo"
                 data-amount="{{ ticket.price*100 }}"
                 data-name="Test-Louvre"
-                data-description="Widget"
+                data-description="Billetterie factice du Louvre"
                 data-locale="auto"
                 data-currency="eur">
         </script>
     </form>
+    </div><!--container-->
 
 
 

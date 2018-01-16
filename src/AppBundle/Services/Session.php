@@ -20,4 +20,11 @@ class Session
         $session->set('ticket',$ticket);
 
     }
+
+    public function closeSession(Request $request)
+    {
+        $session= $request->getSession();
+        $session->invalidate();
+    }
+
 }

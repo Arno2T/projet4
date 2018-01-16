@@ -33,6 +33,8 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\Email(message="Cet email '{{ value }}' n'est pas un email valide.",
+     *     checkMX = true )
      *
      */
     private $email;
@@ -49,7 +51,7 @@ class Ticket
      * @var \DateTime
      *
      * @ORM\Column(name="dateVisit", type="datetime")
-     *
+     * @Assert\DateTime()
      */
     private $dateVisit;
 

@@ -33,7 +33,7 @@ class TicketType extends AbstractType
                 'widget' => 'single_text',
                 'attr' => ['class' => 'js-datepicker'],
                 'constraints' => [ new Assert\Range (array(
-                        'min' => 'now',
+                        'min' => '-1 day',
                         'max' => '+2 months',
                         'minMessage' => "La date est passée.",
                         'maxMessage' => " Trop tôt pour réserver ",
@@ -42,13 +42,16 @@ class TicketType extends AbstractType
                 'html5' => false,
             ))
             ->add('visitors', CollectionType::class, array(
-                'label' => 'Visiteurs',
+
+                'label' =>' ',
                 'by_reference' => false,
                 'entry_type' => VisitorType::class,
                 'allow_add' => true,
                 'allow_delete' => true
             ))
-            ->add('save', SubmitType::class)
+            ->add('save', SubmitType::class, array(
+                'label' => 'Valider'
+            ))
             ;
     }
     

@@ -1,9 +1,13 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 
-<h2>Success</h2>
+    <div class="container">
 
-    <a href="{{ path('home') }}">Retourner à l'accueil </a>
+<h2 class="alert alert-success">Billet réservé </h2>
 
     <p>Un e-mail de confirmation vient de vous être envoyé.</p>
+     <a href="{{ path('home') }}">Retourner à l'accueil </a> <a href="{{ path('home') }}"><span class="glyphicon glyphicon-home"></span></a>
+    </div>
 {% endblock %}
+
+

@@ -32,7 +32,12 @@ class Visitor
      * @var string
      *
      * @ORM\Column(name="lastName", type="string", length=255)
-     * @Assert\Length(min=2)
+     * @Assert\Length(
+     *     min=2,
+     *     max=200,
+     *     minMessage="Minimum {{ limit }} caractères",
+     *     maxMessage="Maximum {{ limit }} caractères"
+     *     )
      */
     private $lastName;
 
@@ -40,7 +45,12 @@ class Visitor
      * @var string
      *
      * @ORM\Column(name="firstName", type="string", length=255)
-     * @Assert\Length(min=2)
+     * @Assert\Length(
+     *     min=2,
+     *     max=100,
+     *     minMessage="Minimum {{ limit }} caractères",
+     *     maxMessage="Maximum {{ limit }} caractères"
+     *     )
      */
     private $firstName;
 
@@ -48,7 +58,9 @@ class Visitor
      * @var string
      *
      * @ORM\Column(name="country", type="string", length=255)
-     * @Assert\Length(min=3)
+     * @Assert\Length(
+     *     min=2,
+     *     minMessage="Minimum {{ limit }} caractères")
      */
     private $country;
 

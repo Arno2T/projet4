@@ -26,7 +26,6 @@ class CheckDateTest extends TestCase
         $ticket->setDateVisit($dayTest);
         $checkDate= new CheckDate();
 
-
         $this->assertSame($expectedReturn, $checkDate->checkDate($ticket));
     }
 
@@ -34,9 +33,9 @@ class CheckDateTest extends TestCase
     {
         return [
             [new \DateTime('01/01/2018'), true], // public holiday
-            //[new \DateTime('01/05/2019'), true], // public holiday
-            //[new \DateTime('18/11/2018'), true], // Sunday
-          //  [new \DateTime('16/01/2018'), true], // Tuesday
+            [new \DateTime('05/01/2019'), true], // public holiday
+            [new \DateTime('11/18/2018'), true], // Sunday
+            [new \DateTime('01/16/2018'), true], // Tuesday
             [new \DateTime('12/02/2020'), false]
         ];
     }

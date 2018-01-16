@@ -34,7 +34,6 @@ class DefinePriceTest extends TestCase
         $visitors= $ticket->getVisitors();
         $definePrice->definePrice($ticket);
         $price= $ticket->getPrice();
-        dump($price);
 
         $this->assertEquals($expectedPrice, $price );
 

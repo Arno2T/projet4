@@ -14,6 +14,7 @@ use AppBundle\Services\CheckDate;
 use AppBundle\Services\DefineBookingCode;
 use AppBundle\Services\DefinePrice;
 use AppBundle\Services\NbVisitors;
+use AppBundle\Services\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,13 +42,10 @@ class FrontController extends Controller
         $ticket= new Ticket();
         $formTicket= $this->createForm(TicketType::class, $ticket);
 
-
         $formTicket->handleRequest($request);
-
 
         if ($formTicket->isSubmitted()&& $formTicket->isValid())
         {
-            $em=$this->getDoctrine()->getManager();
             $nbVisit=$nbVisitors->checkVisitors($ticket);
 
             if($nbVisit==true)
@@ -57,23 +55,32 @@ class FrontController extends Controller
             }
             $ticket=$formTicket->getData();
            $date= $checkDate->checkDate($ticket);
+           $hour= $checkDate->checkHour($ticket);
+           $lastHour= $checkDate->checkLastHour($ticket);
 
-            if($date==true)
+            if($lastHour==true)
             {
-                $this->addFlash('error', 'Fermé le mardi et le dimanche et jours fériés');
+                $this->addFlash('error', 'Vous ne pouvez pas réserver de billet après 17h00');
                 return $this->redirectToRoute('booking');
             }
+            elseif($date==true)
+            {
+                $this->addFlash('error', 'Fermé le mardi, le dimanche et les jours fériés');
+                return $this->redirectToRoute('booking');
+            }
+            elseif($hour==true)
+            {
+                $this->addFlash('error', 'Vous ne pouvez pas réserver de billet "Journée" après 14h00');
+                return $this->redirectToRoute('booking');
+            }
+
 
             $definePrice->definePrice($ticket);
             $session->defineGetters($request, $ticket);
             $code->defineCode($ticket);
-
-            $em->persist($ticket);
-           // $em->flush();
-
             $this->addFlash('success', 'formulaire enregistré');
             return $this->redirectToRoute('recap');
-    }
+        }
 
         return $this->render('booking.html.twig', array('formTicket' => $formTicket->createView(),
             ));
@@ -89,6 +96,12 @@ class FrontController extends Controller
     {
         $ticket=$request->getSession()->get('ticket');
 
+        if ($ticket == null ){
+
+            $this->addFlash('error', 'Vous n\'avez pas effectué de réservation');
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('recap.html.twig', array('ticket'=>$ticket) );
     }
 
@@ -96,31 +109,19 @@ class FrontController extends Controller
      * @Route("/payment", name="payment")
      */
 
-    public function payment(Request $request)
+    public function payment(Request $request, Stripe $stripe)
     {
         $ticket=$request->getSession()->get('ticket');
-        \Stripe\Stripe::setApiKey("sk_test_n3fxJsWsl0Wep28UiJnSvSrP");
-
-        // Get the credit card details submitted by the form
-        $token = $_POST['stripeToken'];
-
-        // Create a charge: this will charge the user's card
-        try
-        {
-            $charge = \Stripe\Charge::create(array(
-                "amount" => ($ticket->getPrice()*100), // Amount in cents
-                "currency" => "eur",
-                "source" => $token,
-                "description" => "Stripe",
-            ));
+        $payment=$stripe->stripe($ticket);
+        if($payment==true){
+            $this->addFlash("success","Paiement accepté !");
             $em=$this->getDoctrine()->getManager();
+            $em->persist($ticket);
             $em->flush();
-            $this->addFlash("success","Bravo ça marche !");
             return $this->redirectToRoute("success");
         }
-        catch(\Stripe\Error\Card $e)
-        {
-            $this->addFlash("error","Snif ça marche pas :(");
+        else{
+            $this->addFlash("error","Informations non valides");
             return $this->redirectToRoute("recap");
             // The card has been declined
         }
@@ -132,12 +133,17 @@ class FrontController extends Controller
      * @param Request $request
      * @Route("/success", name="success")
      */
-    public function success(Request $request, \Swift_Mailer $mailer)
+    public function success(Request $request, \Swift_Mailer $mailer, Session $session)
     {
         $ticket=$request->getSession()->get('ticket');
+        if ($ticket == null ){
+
+            $this->addFlash('error', 'Vous n\'avez pas effectué de réservation');
+            return $this->redirectToRoute('home');
+        }
         $now= new \DateTime();
         $dateDay=$now->format('d/m/Y H:i:s');
-        $message= (new \Swift_Message('Hello Email'))
+        $message= (new \Swift_Message('Billetterie Louvre'))
         ->setFrom('arnaud.tortora@gmail.com')
         ->setTo($ticket->getEmail())
         ->setBody(
@@ -145,6 +151,8 @@ class FrontController extends Controller
                 'text/html'
             );
         $mailer->send($message);
+
+        $session->closeSession($request);
 
         return $this->render('success.html.twig');
 

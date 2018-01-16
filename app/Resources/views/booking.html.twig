@@ -10,6 +10,7 @@
         {{ parent() }}
         <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
     {% endblock %}
+    <div class="container">
     <h3>Réservation</h3>
 
     {{ form_start(formTicket) }}
@@ -38,10 +39,14 @@
             };
 
             $('.js-datepicker').datepicker({
-                format : 'dd/mm/yyyy',
+                startDay : '-1d',
+                format : 'dd/mm/yyyy ',
                 language : 'fr',
                 todayHighlight: 'true',
-                daysOfWeekDisabled: '0,2'
+                daysOfWeekDisabled: '0,2,',
+                startDate : 'now',
+                autoclose: true,
+                todayBtn: 'linked'
             });
 
 
@@ -49,7 +54,7 @@
             var $container = $('div#appbundle_ticket_visitors');
 
             // On ajoute un lien pour ajouter une nouvelle catégorie
-            var $addLink = $('<button><a href="#" id="add_category" class="btn btn-default">Ajouter un visiteur</a></button>');
+            var $addLink = $('<a href="#" id="add_category" class="btn btn-primary" type="button">Ajouter un visiteur</a>');
             $container.append($addLink);
 
             // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
@@ -77,7 +82,7 @@
                 // Dans le contenu de l'attribut « data-prototype », on remplace :
                 // - le texte "__name__label__" qu'il contient par le label du champ
                 // - le texte "__name__" qu'il contient par le numéro du champ
-                var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Catégorie n°' + (index+1))
+                var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Visiteur n°' + (index+1))
                     .replace(/__name__/g, index));
 
                 // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
@@ -93,7 +98,7 @@
             // La fonction qui ajoute un lien de suppression d'une catégorie
             function addDeleteLink($prototype) {
                 // Création du lien
-                $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+                $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer le visiteur</a>');
 
                 // Ajout du lien
                 $prototype.append($deleteLink);
@@ -107,5 +112,5 @@
             }
         });
     </script>
-
+    </div>
 {% endblock %}

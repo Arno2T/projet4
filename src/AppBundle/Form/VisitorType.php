@@ -25,7 +25,8 @@ class VisitorType extends AbstractType
                 'label' => 'Prénom'
             ))
             ->add('country', CountryType::class,array(
-                'label' => 'Pays'
+                'label' => 'Pays',
+                'preferred_choices' => array ('FR')
             ))
             ->add('birthdate', BirthdayType::class,array(
                 'label' => 'Date de naissance'

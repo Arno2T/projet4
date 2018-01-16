@@ -15,10 +15,18 @@ class DefineBookingCode
     public function DefineCode(Ticket $ticket)
     {
         $date=new \DateTime();
-        $date=$date->format('dmy');
-        $id= $ticket->getId();
+        $date=$date->format('dmY');
+        $characts    = 'abcdefghijklmnopqrstuvwxyz';
+        $characts   .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characts   .= '1234567890';
+        $code     = '';
 
-        $code=$date.'LO'.$id;
-        $ticket->setBookingCode($code);
+        for($i=0;$i < 6;$i++)    //6 est le nombre de caractères
+        {
+            $code .= substr($characts,rand()%(strlen($characts)),1);
+        }
+
+        $bookingCode=$date.'LO'.$code;
+        $ticket->setBookingCode($bookingCode);
     }
 }

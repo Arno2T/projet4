@@ -1,13 +1,47 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Billetterie factice du Louvre/Projet OpenClassrooms">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}"/>
+        {% block stylesheets %}
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+        <link href="http://fonts.googleapis.com/css?family=Bitter" rel="stylesheet" type="text/css"/>
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset("img/favicon.ico") }}"/>
+        <link rel="stylesheet" type="text/css" href="{{ asset("css/main.css.twig") }}"/>
+
+
+            <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+            <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+            <![endif]-->
+        {% endblock %}
     </head>
+
     <body>
+    <div class="container-fluid">
+        <div class="row">
+            <header class="col-md-12">
+                <a class="hidden-xs hidden-sm col-md-3" href={{ path('home') }}> <img id="logo" src="{{ asset('img/pyramide.jpg') }}" alt="pyramid" /></a>
+                <h1 class="col-md-9" id="title"> Billetterie du Louvre</h1>
+            </header>
+        </div><!--row-->
+    </div><!--container-fluid-->
+    <div class="container">
+        <div class="row">
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-warning">
+                    <h4>{{ message }}</h4>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
