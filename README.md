@@ -1,5 +1,6 @@
-projet4
+Projet 4
 =======
 
-A Symfony project created on November 20, 2017, 3:10 pm.
-# projet4
+# Brief du projet
+
+Pour ce projet il s'agit de créer une billetterie en ligne à l'aide du framework Symfony

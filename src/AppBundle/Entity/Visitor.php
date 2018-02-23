@@ -32,6 +32,7 @@ class Visitor
      * @var string
      *
      * @ORM\Column(name="lastName", type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez remplir ce champ")
      * @Assert\Length(
      *     min=2,
      *     max=200,
@@ -45,6 +46,7 @@ class Visitor
      * @var string
      *
      * @ORM\Column(name="firstName", type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez remplir ce champ")
      * @Assert\Length(
      *     min=2,
      *     max=100,
@@ -58,6 +60,7 @@ class Visitor
      * @var string
      *
      * @ORM\Column(name="country", type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez remplir ce champ")
      * @Assert\Length(
      *     min=2,
      *     minMessage="Minimum {{ limit }} caractères")

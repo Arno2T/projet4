@@ -72,11 +72,13 @@
     <div class="top">
         <p> Bonjour,</p>
 
-        <p>Vous trouverez ci-joint les détails de votre résevation du {{ dateDay }}.</p>
+        <p>Vous trouverez ci-joint les détails de votre réservation du {{ dateDay }}.</p>
     </div>
     <div class="list">
         <ul >
-            <li>Date de visite: {{ "now"|date('d/m/Y') }}</li>
+            <li>Date de visite: {{ ticket.dateVisit|date('d/m/Y') }}</li>
+            <li>Type de billet: {% if ticket.period==1 %} Journée {% else %} Demi-journée
+                {% endif %}</li>
             <li>Code de réservation: <strong>{{ticket.bookingCode}}</strong></li>
         </ul>
     </div>

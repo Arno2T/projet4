@@ -35,6 +35,7 @@ class Ticket
      * @ORM\Column(name="email", type="string", length=255)
      * @Assert\Email(message="Cet email '{{ value }}' n'est pas un email valide.",
      *     checkMX = true )
+     * @Assert\NotBlank(message="Ce champ doit contenir une adresse mail valide")
      *
      */
     private $email;

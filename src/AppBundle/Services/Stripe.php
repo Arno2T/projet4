@@ -15,7 +15,7 @@ class Stripe {
 
     public function stripe(Ticket $ticket)
     {
-        \Stripe\Stripe::setApiKey("sk_test_n3fxJsWsl0Wep28UiJnSvSrP");
+               \Stripe\Stripe::setApiKey("sk_test_n3fxJsWsl0Wep28UiJnSvSrP");
 
         // Get the credit card details submitted by the form
         $token = $_POST['stripeToken'];

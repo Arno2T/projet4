@@ -21,7 +21,7 @@ class DefineBookingCode
         $characts   .= '1234567890';
         $code     = '';
 
-        for($i=0;$i < 6;$i++)    //6 est le nombre de caractères
+        for($i=0;$i < 6;$i++)    //6 is number of characters
         {
             $code .= substr($characts,rand()%(strlen($characts)),1);
         }

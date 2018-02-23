@@ -46,7 +46,7 @@ class FrontController extends Controller
 
         if ($formTicket->isSubmitted()&& $formTicket->isValid())
         {
-            $nbVisit=$nbVisitors->checkVisitors($ticket);
+            $nbVisit=$nbVisitors->checkVisitors($ticket); //nbVisitors Service
 
             if($nbVisit==true)
             {
@@ -54,13 +54,13 @@ class FrontController extends Controller
                return $this->redirectToRoute('booking');
             }
             $ticket=$formTicket->getData();
-           $date= $checkDate->checkDate($ticket);
+           $date= $checkDate->checkDate($ticket); //CheckDate Service
            $hour= $checkDate->checkHour($ticket);
            $lastHour= $checkDate->checkLastHour($ticket);
 
             if($lastHour==true)
             {
-                $this->addFlash('error', 'Vous ne pouvez pas réserver de billet après 17h00');
+                $this->addFlash('error', 'Vous ne pouvez pas réserver de billet pour le jour même après 17h00');
                 return $this->redirectToRoute('booking');
             }
             elseif($date==true)
@@ -75,9 +75,9 @@ class FrontController extends Controller
             }
 
 
-            $definePrice->definePrice($ticket);
-            $session->defineGetters($request, $ticket);
-            $code->defineCode($ticket);
+            $definePrice->definePrice($ticket);  //DefinePrice Service
+            $session->defineGetters($request, $ticket); //Session Service
+            $code->defineCode($ticket); //DefineBookingCode Service
             $this->addFlash('success', 'formulaire enregistré');
             return $this->redirectToRoute('recap');
         }
@@ -112,7 +112,7 @@ class FrontController extends Controller
     public function payment(Request $request, Stripe $stripe)
     {
         $ticket=$request->getSession()->get('ticket');
-        $payment=$stripe->stripe($ticket);
+        $payment=$stripe->stripe($ticket); //Stripe Service
         if($payment==true){
             $this->addFlash("success","Paiement accepté !");
             $em=$this->getDoctrine()->getManager();

@@ -9,7 +9,7 @@
 namespace AppBundle\Services;
 
 use AppBundle\Entity\Ticket;
-use DeepCopy\f007\FooDateTimeZone;
+
 
 class CheckDate
 {
@@ -40,10 +40,6 @@ class CheckDate
 
             return true;
         }
-       // elseif($hour>=14)
-       // {
-       //     return true;
-       // }
         return false;
 
     }
